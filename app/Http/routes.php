@@ -14,7 +14,8 @@
 Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', function () {
-        return view('welcome');
+      $data = \App\Http\Model\Product::all();
+        dd($data);
     });
 
 });
