@@ -14,7 +14,7 @@
 Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', function () {
-      $data = \App\Http\Model\Product::all();
+      $data = \App\Http\Entity\Product::all();
         dd($data);
     });
 
