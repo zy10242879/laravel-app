@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="{{asset('css/my_app.css')}}">
 </head>
 <body>
+<!---weiui(需要加入div.page来进行包裹)--->
+<div class="page">
+    @section('content')
+    @show
+</div>
+<!----------------------------------->
 
-@section('content')
-@show
 <!--tooltips（公共标签，弹框提示）-->
 <div class="bk_toptips"><span></span></div>
 <a id="showIOSActionSheet"><div id="global_menu"><div></div></div></a>

@@ -57,5 +57,5 @@ class SendTemplateSMS
        return $m3_result;
   }
 }
-
+//使用此方法就可以发送短信，↓↓↓发送手机号，验证码↓↓↓，↓↓有效时间,1表示模板１，这是模板列表
 //sendTemplateSMS("18576437523", array(1234, 5), 1);

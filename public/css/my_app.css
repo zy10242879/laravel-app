@@ -11,7 +11,9 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}
 }
 .hd {padding:2em 0}
 .spacing {padding:0 15px}
-.weui_label {width: 5em;}
+.weui-label {width: 5em;font-weight: bold;}
+input[placeholder]{font-weight: bold;}
+.weui-btn{font-weight: bold;}
 .page_title {
   color:#225FBA;
   text-align:center;
@@ -79,6 +81,7 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}
 .bk_important {
   font-size: 16px;
   color: #3CC51F;
+  font-weight:bold;
 }
 .bk_preview {
   width: 120px;
