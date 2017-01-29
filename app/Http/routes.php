@@ -18,4 +18,6 @@ Route::group(['middleware' => ['web']], function () {
         dd($data);
     });
 
+  //登录页
+  Route::get('login','LoginController@index');
 });
