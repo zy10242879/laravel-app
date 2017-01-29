@@ -17,13 +17,13 @@
                 <input class="weui-input" type="tel" placeholder="不少于6位"/>
             </div>
         </div>
-        <div class="weui-cell weui-vcode">
-            <div class="weui-cell-hd"><label class="weui-label">验证码</label></div>
-            <div class="weui-cell-bd weui-cell-primary">
+        <div class="weui-cell weui-cell_vcode">
+            <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+            <div class="weui-cell__bd weui-cell-primary">
                 <input class="weui-input" type="number" placeholder="请输入验证码"/>
             </div>
-            <div class="weui-cell-ft">
-                <img src="#" class="bk_validate_code"/>
+            <div class="weui-cell__ft">
+                <img src="{{url('validateCode')}}" class="bk_validate_code weui-vcode-img"/>
             </div>
         </div>
     </div>
@@ -35,5 +35,9 @@
 @endsection
 
 @section('my-js')
-
+<script>
+    $('.bk_validate_code').click(function () {
+        $(this).attr('src','{{url('validateCode').'?random='}}'+Math.random());
+    });
+</script>
 @endsection

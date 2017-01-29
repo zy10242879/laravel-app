@@ -27,8 +27,5 @@ class ValidateCodeController extends Controller
     //③项目目录下运行composer dump-autoload
     $validateCode = new ValidateCode;
     return $validateCode->doimg();
-
-
-
   }
 }
