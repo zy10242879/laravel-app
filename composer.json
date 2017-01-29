@@ -19,7 +19,8 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "app/Tool/ValidateCode/ValidateCode.php"
         ],
         "psr-4": {
             "App\\": "app/"

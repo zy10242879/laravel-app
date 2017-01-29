@@ -13,11 +13,8 @@
 
 Route::group(['middleware' => ['web']], function () {
 
-    Route::get('/', function () {
-      $data = \App\Http\Entity\Product::all();
-        dd($data);
-    });
-
   //登录页
-  Route::get('login','LoginController@index');
+  Route::get('/','LoginController@index');
+  //获取验证码
+  Route::any('validateCode','Service\ValidateCodeController@create');
 });

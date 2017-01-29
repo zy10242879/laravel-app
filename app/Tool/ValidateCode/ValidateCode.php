@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tool\Validate;
+namespace App\Tool\ValidateCode;
 
 //验证码类
 class ValidateCode
