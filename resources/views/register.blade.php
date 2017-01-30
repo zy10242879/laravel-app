@@ -43,6 +43,7 @@
                 <input class="weui-input" type="password" placeholder="不少于6位" name='passwd_phone_cfm'/>
             </div>
         </div>
+        <!---------手机注册此处验证码省略，看实际项目大小而定是否需要添加-----------
         <div class="weui-cell weui-cell_vcode">
             <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
             <div class="weui-cell__bd weui-cell-primary">
@@ -52,6 +53,7 @@
                 <img src="{{url('validateCode')}}" class="bk_validate_code weui-vcode-img"/>
             </div>
         </div>
+        -->
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">手机验证码</label></div>
             <div class="weui-cell__bd weui-cell_primary">

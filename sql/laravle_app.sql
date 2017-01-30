@@ -49,3 +49,11 @@ CREATE TABLE `app_pdt_images` (
   `updated_at` timestamp NULL DEFAULT NULL COMMENT '//更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='//产品图片表';
+
+CREATE TABLE `app_temp_phone` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `phone` varchar(11) DEFAULT '' COMMENT '//临时手机号',
+  `code` int(11) DEFAULT NULL COMMENT '//手机验证码',
+  `deadline` timestamp NULL DEFAULT NULL COMMENT '//验证码过期时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='//临时手机验证码表';
