@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Service;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Tool\ValidateCode\ValidateCode;
 use App\Http\Controllers\Controller;
 

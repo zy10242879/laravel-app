@@ -11,7 +11,7 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}
 }
 .hd {padding:2em 0}
 .spacing {padding:0 15px}
-.weui-label {width: 5em;font-weight: bold;}
+.weui-label {width: 6em;font-weight: bold;}
 input[placeholder]{font-weight: bold;}
 .weui-btn{font-weight: bold;}
 .page_title {

@@ -14,8 +14,11 @@
 Route::group(['middleware' => ['web']], function () {
 
   //登录页
-  Route::get('login','LoginController@index');
+  Route::get('login','View\MemberController@toLogin');
+  //注册页
+  Route::get('register','View\MemberController@toRegister');
   //获取验证码图片
   Route::any('validateCode','Service\ValidateCodeController@create');
+
 
 });
