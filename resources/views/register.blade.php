@@ -50,7 +50,7 @@
                 <input class="weui-input" type="number" placeholder="请输入验证码"/>
             </div>
             <div class="weui-cell__ft">
-                <img src="{{url('validateCode')}}" class="bk_validate_code weui-vcode-img"/>
+                <img src="{{url('service/validateCode')}}" class="bk_validate_code weui-vcode-img"/>
             </div>
         </div>
         -->
@@ -89,7 +89,7 @@
                 <input class="weui-input" type="number" placeholder="请输入验证码"/>
             </div>
             <div class="weui-cell__ft">
-                <img src="{{url('validateCode')}}" class="bk_validate_code weui-vcode-img"/>
+                <img src="{{url('service/validateCode')}}" class="bk_validate_code weui-vcode-img"/>
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@
 @section('my-js')
     <script>
         $('.bk_validate_code').click(function () {
-            $(this).attr('src','{{url('validateCode').'?random='}}'+Math.random());
+            $(this).attr('src','{{url('service/validateCode').'?random='}}'+Math.random());
         });
         function changeRegister(index) {
             if(index==1){
@@ -114,5 +114,9 @@
                 $('#email').attr('style','display:');
             }
         }
+        //ajax发送验证码
+        $('.bk_phone_code_send').click(function () {
+            //发送验证码
+        });
     </script>
 @endsection
