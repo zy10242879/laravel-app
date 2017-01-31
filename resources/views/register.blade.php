@@ -125,6 +125,23 @@
         if(enable == false){ //开关为关时，不允许发送短信直接返回
             return;
         }
+        //------------对手机号进行验证---------
+        var phone = $('input[name=phone]').val();
+        // 手机号不为空
+        if(phone == '') {
+            $('.bk_toptips').show();
+            $('.bk_toptips span').html('请输入手机号');
+            setTimeout(function() {$('.bk_toptips').hide();}, 2000);
+            return;
+        }
+        // 手机号格式
+        if(phone.length != 11 || phone[0] != '1') {
+            $('.bk_toptips').show();
+            $('.bk_toptips span').html('手机格式不正确');
+            setTimeout(function() {$('.bk_toptips').hide();}, 2000);
+            return;
+        }
+        //-----------------------------------
         enable = false;//将开关设定为不允许发送(点击后关闭开关)
         var num = 60;//允许多长时间进行发送
         //定义计时器，60秒后允许发送第2次 function(){逻辑处理},倒计时时间1秒钟
@@ -142,7 +159,7 @@
                 }
             },1000);
     //-----------ajax发送短信--------------
-        var phone = $('input[name=phone]').val();
+
         $.ajax({
             url:'service/smsCode',
             dataType:'json',
