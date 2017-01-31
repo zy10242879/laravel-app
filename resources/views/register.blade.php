@@ -101,19 +101,23 @@
 @endsection
 
 @section('my-js')
-    <script>
-        $('.bk_validate_code').click(function () {
-            $(this).attr('src','{{url('service/validateCode').'?random='}}'+Math.random());
-        });
-        function changeRegister(index) {
-            if(index==1){
-              $('#phone').attr('style','display:');
-              $('#email').attr('style','display:none');
-            }else if(index==2){
-                $('#phone').attr('style','display:none');
-                $('#email').attr('style','display:');
-            }
+<script>
+    //点击验证码图片后更换验证码
+    $('.bk_validate_code').click(function () {
+        $(this).attr('src','{{url('service/validateCode').'?random='}}'+Math.random());
+    });
+    //点击更换注册用户方式
+    function changeRegister(index) {
+        if(index==1){
+          $('#phone').attr('style','display:');
+          $('#email').attr('style','display:none');
+        }else if(index==2){
+            $('#phone').attr('style','display:none');
+            $('#email').attr('style','display:');
         }
+    }
+</script>
+<script>
     //ajax验证短信是否发送成功，限制发送间隔
     //------------间隔限制----------
     var enable = true;//定义开关，是否允许发送短信
@@ -171,5 +175,5 @@
         });
     //------------------------------------
     });
-    </script>
+</script>
 @endsection
