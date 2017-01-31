@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Service;
 
 use App\Http\Entity\TempPhone;
-use App\Models\smsResult;
+use App\Models\API_Result;
 use App\Tool\SMS\SendTemplateSMS;
 use App\Tool\ValidateCode\ValidateCode;
 use App\Http\Controllers\Controller;
@@ -35,15 +35,15 @@ class ValidateController extends Controller
   //⑶创建：手机验证码发送方法
   public function sendSMS()
   {
-    $smsResult = new smsResult();
+    $API_Result = new API_Result();
     //⑹此处为业务逻辑，因项目而定，此处为获取手机号，判断手机号，
     $input['phone'] = Input::get('phone','');
     if($input['phone'] == ''){
       //-----以接口的调用方法进行返回-----⑺在App中新建Models文件夹作为存放接口用
-      //⑻注意查看：App/Models/smsResult.php接口文件
-      $smsResult->status = 1;
-      $smsResult->message = '手机号不能为空！';
-      return $smsResult->toJson();
+      //⑻注意查看：App/Models/API_Result.php接口文件
+      $API_Result->status = 1;
+      $API_Result->message = '手机号不能为空！';
+      return $API_Result->toJson();
     }
     //⑷注意：SendTemplateSMS此类中的账号配置
     $SendTemplateSMS = new SendTemplateSMS;
@@ -58,17 +58,17 @@ class ValidateController extends Controller
     //$SendTemplateSMS->sendTemplateSMS('测试手机号', array($code, 30), 1);
     //-------------------------------------------------------------------------
     //⑼发送短信，并存储到临时表temp_phone中，返回接口信息
-    $smsResult = $SendTemplateSMS->sendTemplateSMS($input['phone'], array($code, 30), 1);
-    if($smsResult->status == 0){
+    $API_Result = $SendTemplateSMS->sendTemplateSMS($input['phone'], array($code, 30), 1);
+    if($API_Result->status == 0){
       $input['code'] = $code;//此处注意：存入数据库字段类型用char，避免用int后首字0不存储的问题
       $input['deadline'] = date('Y-m-d H:i:s',time()+60*30);
       if(!TempPhone::where('phone',$input['phone'])->update($input)){
         TempPhone::create($input);
       }
-      $smsResult->status = 0;
-      $smsResult->message = '发送成功！';
+      $API_Result->status = 0;
+      $API_Result->message = '发送成功！';
     }
-    return $smsResult->toJson();
+    return $API_Result->toJson();
     //⑽修改SendTemplateSMS.php中echo输出的结果内容
   }
 }

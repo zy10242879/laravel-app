@@ -2,7 +2,7 @@
 
 namespace App\Tool\SMS;
 
-use App\Models\smsResult;
+use App\Models\API_Result;
 
 class SendTemplateSMS
 {
@@ -33,8 +33,8 @@ class SendTemplateSMS
   public function sendTemplateSMS($to,$datas,$tempId)
   {
         //改写SendTemplateSMS 将所有echo的内容去除，并以接口方式进行返回
-      //实例化smsResult接口
-       $smsResult = new smsResult();
+      //实例化API_Result接口
+       $API_Result = new API_Result();
 
        // 初始化REST SDK
        $rest = new CCPRestSDK($this->serverIP,$this->serverPort,$this->softVersion);
@@ -45,18 +45,18 @@ class SendTemplateSMS
         //echo "Sending TemplateSMS to $to <br/>";
        $result = $rest->sendTemplateSMS($to,$datas,$tempId);
        if($result == NULL ) {
-           $smsResult->status = 2;
-           $smsResult->message = 'result error!';
+           $API_Result->status = 2;
+           $API_Result->message = 'result error!';
          //echo "result error!";
        }
        if($result->statusCode != 0) {
-           $smsResult->status = current($result->statusCode); //返回SDK的状态是个对象用current取值
-           $smsResult->message = current($result->statusMsg); //返回SDK的信息是个对象用current取值
+           $API_Result->status = current($result->statusCode); //返回SDK的状态是个对象用current取值
+           $API_Result->message = current($result->statusMsg); //返回SDK的信息是个对象用current取值
          //echo "error code :".$result->statusCode."<br>";
          //echo "error msg :".$result->statusMsg."<br>";
        }else{
-           $smsResult->status = 0;
-           $smsResult->message = '发送成功';
+           $API_Result->status = 0;
+           $API_Result->message = '发送成功';
          //echo "Sendind TemplateSMS success!<br/>";
          //获取返回信息
          //$smsmessage = $result->TemplateSMS;
@@ -64,7 +64,7 @@ class SendTemplateSMS
          //echo "smsMessageSid".$smsmessage->smsMessageSid."<br/>";
        }
 
-       return $smsResult;//注意：此处返回对象即可
+       return $API_Result;//注意：此处返回对象即可
   }
 }
 //使用此方法就可以发送短信，↓↓↓发送手机号，验证码↓↓↓，↓↓有效时间,1表示模板１，这是模板列表
