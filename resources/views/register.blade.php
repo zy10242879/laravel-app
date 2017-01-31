@@ -162,9 +162,10 @@
 
         $.ajax({
             url:'service/smsCode',
+            type:'post',
             dataType:'json',
             cache:false,
-            data:{phone:phone},
+            data:{phone:phone,_token:'{{csrf_token()}}'},
             success:function (data) {//处理短信发送成功于否的逻辑
                 if(data == null){ //如果data是空的，那就是服务端返回的数据出现问题
                     $('.bk_toptips').show();

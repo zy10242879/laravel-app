@@ -18,9 +18,9 @@ Route::group(['middleware' => ['web']], function () {
   //注册页
   Route::get('register','View\MemberController@toRegister');
   //获取验证码图片
-  Route::any('service/validateCode','Service\ValidateController@create');
+  Route::get('service/validateCode','Service\ValidateController@create');
   //发送短信验证码
-  Route::get('service/smsCode','Service\ValidateController@sendSMS');
+  Route::post('service/smsCode','Service\ValidateController@sendSMS');
 
 
 });
