@@ -58,14 +58,16 @@ class ValidateController extends Controller
     //$SendTemplateSMS->sendTemplateSMS('测试手机号', array($code, 30), 1);
     //-------------------------------------------------------------------------
     //⑼发送短信，并存储到临时表temp_phone中，返回接口信息
-    $SendTemplateSMS->sendTemplateSMS($input['phone'], array($code, 30), 1);
-    $input['code'] = $code;//此处注意：存入数据库字段类型用char，避免用int后首字0不存储的问题
-    $input['deadline'] = date('Y-m-d H:i:s',time()+60*30);
-    if(!TempPhone::where('phone',$input['phone'])->update($input)){
-      TempPhone::create($input);
+    $smsResult = $SendTemplateSMS->sendTemplateSMS($input['phone'], array($code, 30), 1);
+    if($smsResult->status == 0){
+      $input['code'] = $code;//此处注意：存入数据库字段类型用char，避免用int后首字0不存储的问题
+      $input['deadline'] = date('Y-m-d H:i:s',time()+60*30);
+      if(!TempPhone::where('phone',$input['phone'])->update($input)){
+        TempPhone::create($input);
+      }
+      $smsResult->status = 0;
+      $smsResult->message = '发送成功！';
     }
-    $smsResult->status = 0;
-    $smsResult->message = '发送成功！';
     return $smsResult->toJson();
     //⑽修改SendTemplateSMS.php中echo输出的结果内容
   }
