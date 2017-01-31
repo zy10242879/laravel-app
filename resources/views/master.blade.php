@@ -17,8 +17,14 @@
 </div>
 <!----------------------------------->
 
-<!--tooltips（公共标签，弹框提示）-->
+<!----------tooltips（公共标签，弹框提示）--------->
 <div class="bk_toptips"><span></span></div>
+    <!-----通用弹框代码---------
+    $('.bk_toptips').show();
+    $('.bk_toptips span').html('各种类型提示');
+    setTimeout(function(){$('.bk_toptips').hide();},2000);
+    ------------------------->
+<!--------------------------------------------->
 <a id="showIOSActionSheet"><div id="global_menu"><div></div></div></a>
 
 <!--BEGIN actionSheet-->

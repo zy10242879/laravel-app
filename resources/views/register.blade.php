@@ -114,9 +114,62 @@
                 $('#email').attr('style','display:');
             }
         }
-        //ajax发送验证码
-        $('.bk_phone_code_send').click(function () {
-            //发送验证码
+    //ajax验证短信是否发送成功，限制发送间隔
+    //------------间隔限制----------
+    var enable = true;//定义开关，是否允许发送短信
+    $('.bk_phone_code_send').click(function () {
+        if(enable == false){ //开关为关时，不允许发送短信直接返回
+            return;
+        }
+        enable = false;//将开关设定为不允许发送(点击后关闭开关)
+        var num = 60;//允许多长时间进行发送
+        //定义计时器，60秒后允许发送第2次 function(){逻辑处理},倒计时时间1秒钟
+        var interval = window.setInterval(function () {
+            //如果没到60秒，多少秒后可以重新发送
+            $('.bk_phone_code_send').html(--num +'s 重新发送');
+            $('.bk_phone_code_send').removeClass('bk_important');//移除字体  （美化作用）
+            $('.bk_phone_code_send').addClass('bk_summary');//添加其它样式字体 （美化作用）
+            if(num == 0){ //60秒到了，开关打开，允许发送短信，清除计时器
+                enable = true;
+                window.clearInterval(interval);//销毁计时器
+                $('.bk_phone_code_send').html('重新发送');//将按钮变为'重新发送'
+                $('.bk_phone_code_send').removeClass('bk_summary');//移除字体  （美化作用）
+                $('.bk_phone_code_send').addClass('bk_important');//添加其它样式字体 （美化作用）
+                }
+            },1000);
+    //-----------ajax发送短信--------------
+        var phone = $('input[name=phone]').val();
+        $.ajax({
+            url:'service/smsCode',
+            dataType:'json',
+            cache:false,
+            data:{phone:phone},
+            success:function (data) {//处理短信发送成功于否的逻辑
+                if(data == null){ //如果data是空的，那就是服务端返回的数据出现问题
+                    $('.bk_toptips').show();
+                    $('.bk_toptips span').html('服务端错误！');
+                    setTimeout(function(){$('.bk_toptips').hide();},2000);
+                    return;
+                }
+                if(data.status != 0){//如果data中的状态不为0，输出错误信息
+                    $('.bk_toptips').show();
+                    $('.bk_toptips span').html(data.message);
+                    setTimeout(function(){$('.bk_toptips').hide();},2000);
+                    num = 10;//报错后设置10秒后可继续发送
+                    return;
+                }
+                //如果data.status为0，给提示短信发送成功
+                $('.bk_toptips').show();
+                $('.bk_toptips span').html('发送成功！');
+                setTimeout(function(){$('.bk_toptips').hide();},2000);
+            },
+            error:function (xhr,status,errors) {//出错调试，下以为固定写法
+                console.log(xhr);
+                console.log(status);
+                console.log(errors);
+            }
         });
+    //------------------------------------
+    });
     </script>
 @endsection
