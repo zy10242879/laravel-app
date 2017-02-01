@@ -86,7 +86,7 @@
         <div class="weui-cell weui-cell_vcode">
             <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
             <div class="weui-cell__bd weui-cell-primary">
-                <input name="validate_code" class="weui-input" type="number" placeholder="请输入验证码"/>
+                <input name="validate_code" class="weui-input" type="text" placeholder="请输入验证码"/>
             </div>
             <div class="weui-cell__ft">
                 <img src="{{url('service/validateCode')}}" class="bk_validate_code weui-vcode-img"/>
