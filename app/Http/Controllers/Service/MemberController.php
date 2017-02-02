@@ -46,10 +46,24 @@ class MemberController extends Controller
 
       }
     }else{
+      //----------此处为单个判断，并设置状态值的用法（可以进行多个同类判断来设置不同的状态值）----------
+      $message = $validator->messages()->getMessages();
+      if(!empty($message['phone'])){
+        $API_Result->status = 2;
+        $API_Result->message = current($message['phone']);
+        return $API_Result->toJson();
+      }
+      if(!empty($message['password'])){
+        $API_Result->status = 3;
+        $API_Result->message = current($message['password']);
+        return $API_Result->toJson();
+      }
+      //-----------以下为对所有错误进行判断，current()仅输出第1个错误（只能设置1个状态值）-----------
       $API_Result->status = 1;
       $API_Result->message = current($validator->messages()->all());
-      //var_dump(current($validator->messages()->all()));
       return $API_Result->toJson();
+      //----------使用以上3行可以不使用单个判断，缺点为只有1个状态值----------------------
     }
   }
+
 }
