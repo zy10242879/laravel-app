@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Service;
 
+use App\Http\Entity\Member;
+use App\Http\Entity\TempPhone;
 use App\Models\API_Result;
 use Illuminate\Http\Request;
 
@@ -41,7 +43,31 @@ class MemberController extends Controller
     if ($validator->passes()) {
       //通过所有验证后，进行完成注册逻辑
       if($data['phone'] != ''){//手机号注册
-
+        //---------此段可取消，减少数据库压力（前端发送验证码前已验证，问题不大）-------
+        if(Member::where('phone',$data['phone'])->first()){
+          $API_Result->status = 4;
+          $API_Result->message = '用户已存在！';
+          return $API_Result->toJson();
+        }
+        //-----------------------------------------------------------------
+        if($TempPhone = TempPhone::where('phone',$data['phone'])->first()){
+          if($TempPhone->code == $data['phone_code']){
+            if(time() < strtotime($TempPhone->deadline)){
+              $member = new Member();
+              $member->phone = $data['phone'];
+              $member->password = \Crypt::encrypt($data['password']);
+              $member->save();
+              //删除临时表中的数据
+              $TempPhone->delete();
+              $API_Result->status = 0;
+              $API_Result->message = '注册成功！';
+              return $API_Result->toJson();
+            }
+          }
+        }
+        $API_Result->status = 5;
+        $API_Result->message = '验证码错误,请重新发送！';
+        return $API_Result->toJson();
       }else{ //邮箱注册
 
       }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Service;
 
+
+use App\Http\Entity\Member;
 use App\Http\Entity\TempPhone;
 use App\Models\API_Result;
 use App\Tool\SMS\SendTemplateSMS;
@@ -43,6 +45,11 @@ class ValidateController extends Controller
       //⑻注意查看：App/Models/API_Result.php接口文件
       $API_Result->status = 1;
       $API_Result->message = '手机号不能为空！';
+      return $API_Result->toJson();
+    }
+    if(Member::where('phone',$input['phone'])->first()){
+      $API_Result->status = 2;
+      $API_Result->message = '手机号已被注册！';
       return $API_Result->toJson();
     }
     //⑷注意：SendTemplateSMS此类中的账号配置

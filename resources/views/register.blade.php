@@ -191,7 +191,7 @@
                 //如果data.status为0，给提示短信发送成功
                 $('.bk_toptips').show();
                 $('.bk_toptips span').html('发送成功！');
-                setTimeout(function(){$('.bk_toptips').hide();},2000);
+                setTimeout(function(){$('.bk_toptips').hide();},5000);
             },
             error:function (xhr,status,errors) {//出错调试，下以为固定写法
                 console.log(xhr);
