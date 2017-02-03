@@ -23,6 +23,4 @@ Route::group(['middleware' => ['web']], function () {
   Route::post('service/smsCode','Service\ValidateController@sendSMS');
   //用户注册：接收ajax请求后提供接口返回
   Route::post('service/register','Service\MemberController@register');
-
-
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Service;
 
 use App\Http\Entity\Member;
 use App\Http\Entity\TempPhone;
+use App\Http\Requests\Request;
 use App\Models\API_Result;
 use App\Tool\SMS\SendTemplateSMS;
 use App\Tool\ValidateCode\ValidateCode;
@@ -30,6 +31,9 @@ class ValidateController extends Controller
     */
     //③项目目录下运行composer dump-autoload
     $validateCode = new ValidateCode;
+    //将验证码存入session中
+    session(['validate_code'=>$validateCode->getCode()]);
+    //\Session::put('validate_code',$validateCode->getCode());//两种session存储方法
     return $validateCode->doimg();
   }
   //⑴在Tools中加入SMS两个云通迅发送类

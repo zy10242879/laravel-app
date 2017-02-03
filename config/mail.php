@@ -54,8 +54,8 @@ return [
     | used globally for all e-mails that are sent by your application.
     |
     */
-
-    'from' => ['address' => null, 'name' => null],
+    //配置发送的邮箱地址：   及配置名称：    如果此处不配置，要在代码中配置
+    'from' => ['address' => '10242879@163.com', 'name' => '妞妈烘焙'],
 
     /*
     |--------------------------------------------------------------------------
