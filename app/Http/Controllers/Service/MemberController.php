@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use SuperClosure\Analyzer\Token;
 
 class MemberController extends Controller
 {
@@ -95,7 +96,7 @@ class MemberController extends Controller
         $API_Email->to = $data['email'];    //收件人
         $API_Email->cc = '10242879@163.com';//抄送人
         $API_Email->subject = '妞妈烘焙验证'; //主题
-        $API_Email->content = '请于2小时内点击该链接完成验证。<br/><a href="http://laravel.app/service/validateEmail?token='.$token.'&time='.base64_encode($time).'">欢迎进入妞妈烘焙！（点击完成邮箱注册）<br/>注意：仅同一设备可完成验证！！！</a>';
+        $API_Email->content = '请于2小时内点击该链接完成验证。<br/><a href="http://laravel.app/service/validateEmail?token='.$token.'">欢迎进入妞妈烘焙！（点击完成邮箱注册）<br/>注意：仅同一设备可完成验证！！！</a>';
         //send(参数一：收件视图，要在view中创建,[供视图使用的数组])
         \Mail::send('email_register', ['API_Email' => $API_Email], function ($e) use ($API_Email) {
           //$e->from('hello@app.com', 'Your Application');//config中已配置，不用写
@@ -130,5 +131,30 @@ class MemberController extends Controller
       //----------使用以上3行可以不使用单个判断，缺点为只有1个状态值----------------------
     }
   }
-
+  //用户点击链接后注册的方法
+  public function validateEmail()
+  {
+    $API_Result = new API_Result();
+    $token = Input::get('token','');
+    $email = base64_decode(session('email'));
+    $_token = API_Token::token($email,session('time'));
+    if(Member::where('email',$email)->first()){
+      $API_Result->status = 2;
+      $API_Result->message = '用户已激活！';
+      return $API_Result->toJson();
+    }
+    if($token != $_token){
+      $API_Result->status = 1;
+      $API_Result->message = '验证异常，请重新发送邮件！';
+      return $API_Result->toJson();
+    }
+    //完成判断后，将用户写入member表中
+    $member = new Member();
+    $member->email = $email;
+    $member->password = session('pw');
+    $member->save();
+    \Session::forget(['email','pw','time']);//清除session中保存的临时数据
+    //可以在session中写入登录数据，跳转到登录页面时判断session，并进行自动用户登录操作
+    return  redirect('login');
+  }
 }
