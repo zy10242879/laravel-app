@@ -3,7 +3,7 @@
 @section('title','登录')
 
 @section('content')
-    <div class="weui-cells__title">登录</div>
+    <div class="weui-cells__title"></div>
     <div class="weui-cells weui-cells-form">
         <div class="weui-cell">
             <div class="weui-cell-hd"><label class="weui-label">帐号</label></div>

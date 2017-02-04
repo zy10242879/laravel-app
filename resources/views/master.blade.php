@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="{{asset('css/my_app.css')}}">
 </head>
 <body>
+<!--头部标题界面-->
+<div class="bk_title_bar">
+    <img class="bk_back" src="{{asset('images/back.png')}}" alt="" onclick="history.go(-1)">  <!--返回键-->
+    <p class="bk_title_content"></p>              <!--标题-->
+    <img id="showIOSActionSheet" class="bk_menu" src="{{asset('images/menu.png')}}" alt=""></div><!--菜单键-->
+
 <!---weiui(需要加入div.page来进行包裹)--->
 <div class="page">
     @section('content')
@@ -25,7 +31,7 @@
     setTimeout(function(){$('.bk_toptips').hide();},2000);
     ------------------------->
 <!--------------------------------------------->
-<a id="showIOSActionSheet"><div id="global_menu"><div></div></div></a>
+{{--<a id="showIOSActionSheet"><div id="global_menu"><div></div></div></a><!--删除悬浮球-->--}}
 
 <!--BEGIN actionSheet-->
 <div>
@@ -80,6 +86,8 @@
             setTimeout(function() {$('.bk_toptips').hide();}, 2000);
         }
     }
+    //将标题栏和标题保持一致
+    $('.bk_title_content').html(document.title)
 </script>
 
 @section('my-js')
