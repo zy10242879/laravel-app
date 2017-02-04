@@ -17,6 +17,8 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('login','View\MemberController@toLogin');
   //注册页
   Route::get('register','View\MemberController@toRegister');
+  //分类页
+  Route::get('category','View\CategoryController@toCategory');
   //获取验证码图片
   Route::get('service/validateCode','Service\ValidateController@create');
   //发送短信验证码
@@ -25,4 +27,6 @@ Route::group(['middleware' => ['web']], function () {
   Route::post('service/register','Service\MemberController@register');
   //点击邮箱链接后返回的路由
   Route::get('service/validateEmail','Service\MemberController@validateEmail');
+  //注册服务
+  Route::post('service/login','Service\MemberController@login');
 });

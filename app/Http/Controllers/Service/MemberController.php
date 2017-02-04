@@ -157,4 +157,65 @@ class MemberController extends Controller
     //可以在session中写入登录数据，跳转到登录页面时判断session，并进行自动用户登录操作
     return  redirect('login');
   }
+  //用户登录方法(同样以接口形式返回数据)
+  public function login()
+  {
+    $API_Result = new API_Result();
+    $input = Input::all();
+    $rules = [
+      //*********************************************************************
+      //注意：此处正则表达式的写法，及验证的写法，如用正则带'|'的，要加入数组中才可正常使用
+      'username' =>['required','regex:/(^1[34578][0-9]{9}$)|(^[\w-.]+@[\w-.]+.[\w]{2,10}$)/'],
+      //*********************************************************************
+      'password' => 'required|min:6',
+      'validateCode' => 'required|min:4|max:4'
+    ];
+    $message = [
+      'username.required' => '帐号不能为空！',
+      'username.regex' => '帐号格式错误！',
+      'password.required' => '密码不能为空！',
+      'password.min' => '密码不能少于6位！',
+      'validateCode.required' => '验证码不能为空！',
+      'validateCode.min' => '验证码为4位！',
+      'validateCode.max' => '验证码为4位！'
+    ];
+    $validator = \Validator::make($input,$rules,$message);
+    if($validator->passes()){
+      //通过验证后，判断验证码是否正确
+      if(\Session::get('validate_code') != strtolower($input['validateCode'])){
+        $API_Result->status = 2;
+        $API_Result->message = '验证码错误！';
+        return $API_Result->toJson();
+      }
+      //判断是手机号还是邮箱并查询数据库，确认用户登录
+        $member = null;
+      if(preg_match('/^1[34578][0-9]{9}$/',$input['username'])){
+        $member = Member::where('phone',$input['username'])->first();
+      }else{//邮箱注册
+        $member = Member::where('email',$input['username'])->first();
+      }
+      if($member == null){
+      $API_Result->status = 3;
+      $API_Result->message = '该用户不存在！';
+      return $API_Result->toJson();
+      }else{ //在数据库中找到记录后，判断密码是否一致
+        if(\Crypt::decrypt($member->password) != $input['password']){
+          $API_Result->status = 4;
+          $API_Result->message = '用户名或密码错误！';
+          return $API_Result->toJson();
+        }
+      }
+      //如果所有验证都通过，将登录信息保存到session中，此例存储为$member
+      \Session::put('member',$member);
+      \Session::forget('validate_code');//删除验证码
+      $API_Result->status = 0;
+      $API_Result->message = '登录成功！';
+      return $API_Result->toJson();
+    }else{
+      $message = $validator->messages()->first();
+      $API_Result->status = 1;
+      $API_Result->message = $message;
+      return $API_Result->toJson();
+    }
+  }
 }
