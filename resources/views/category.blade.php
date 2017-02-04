@@ -64,6 +64,7 @@
                 }
                 $('.weui-cells-access').html('');
                 for(var i=0; i<data.categorys.length; i++) {
+                    //next 根据分类id进行筛选商品，定义路径，去跳转到该分类下，显示分类下的所有商品
                     var next =  '/product/category_id/' + data.categorys[i].id;
                     var node =  '<a class="weui-cell" href="' + next + '">' +
                                 '<div class="weui-cell__bd weui-cell__primary">' +
