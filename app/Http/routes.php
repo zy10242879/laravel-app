@@ -21,6 +21,8 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('category','View\CategoryController@toCategory');
   //分类下的全部商品页
   Route::get('product/category_id/{category_id}','View\CategoryController@toProduct');
+  //产品详情页
+  Route::get('product/{product_id}','View\CategoryController@toPdtContent');
 
   //提供接口的服务路由
   Route::group(['prefix'=>'service','namespace'=>'Service'],function (){

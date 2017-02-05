@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\View;
 
 use App\Http\Entity\Category;
+use App\Http\Entity\PdtContent;
+use App\Http\Entity\PdtImages;
 use App\Http\Entity\Product;
 use Illuminate\Http\Request;
 
@@ -22,5 +24,13 @@ class CategoryController extends Controller
   {
     $products = Product::where('category_id',$category_id)->get();
     return view('product',compact('products'));
+    }
+
+  public function toPdtContent($product_id)
+  {
+    $product = Product::find($product_id);
+    $pdt_content = PdtContent::where('product_id',$product_id)->first();
+    $pdt_images = PdtImages::where('product_id',$product_id)->get();
+    return view('pdt_content',compact('product','pdt_content','pdt_images'));
     }
 }
