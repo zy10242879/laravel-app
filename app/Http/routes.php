@@ -38,6 +38,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('login','MemberController@login');
     //ajax获得对应parent_id的分类信息
     Route::get('category/parent_id/{parent_id}','CategoryController@getCategoryByParentId');
+    //****加入购物车写入cookie接口****
+    Route::get('cart/add/{parent_id}','CartController@addCart');
   });
 
 });

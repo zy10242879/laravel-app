@@ -31,6 +31,17 @@ class CategoryController extends Controller
     $product = Product::find($product_id);
     $pdt_content = PdtContent::where('product_id',$product_id)->first();
     $pdt_images = PdtImages::where('product_id',$product_id)->get();
-    return view('pdt_content',compact('product','pdt_content','pdt_images'));
+    //获得cookie中product_id的num数量，传递到模板中
+    $_cart = \Cookie::get('_cart');
+    $_cart_array = $_cart != null ? explode(',',$_cart):[];
+    $count =0;
+    foreach ($_cart_array as $value){
+      $index = strpos($value,':');
+      if(substr($value,0,$index)==$product_id){
+        $count = substr($value,$index+1);
+        break;
+      }
+    }
+    return view('pdt_content',compact('product','pdt_content','pdt_images','count'));
     }
 }
