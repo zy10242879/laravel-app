@@ -112,13 +112,19 @@
                     setTimeout(function() {$('.bk_toptips').hide();}, 2000);
                     return;
                 }
-
+                if(data.status == 0){
                 $('.bk_toptips').show();
                 $('.bk_toptips span').html(data.message);
                 setTimeout(function() {$('.bk_toptips').hide();}, 2000);
                 //成功登录后，前端跳转页面
-                location.href = "{{url('category')}}";
-
+                @if(!empty(Session::get('http_referer')))
+                        //如果这里用Session::pull()那么转到其它页后,session中的地址就没了
+                    location.href = "{{Session::pull('http_referer')}}";
+                        //如果这里用get，那么session中就会一直存在一个url
+                @else
+                    location.href = "{{url('category')}}";
+                @endif
+                }
             },
             error: function(xhr, status, error) {
                 console.log(xhr);

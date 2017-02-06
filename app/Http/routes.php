@@ -26,6 +26,11 @@ Route::group(['middleware' => ['web']], function () {
   //购物车页
   Route::get('cart','View\CartController@toCart');
 
+  Route::group(['middleware'=>['check.login']],function(){
+  //购物结算，需要中间件来判断是否是登录状态
+    Route::get('order_pay/product_ids/{product_ids}','View\OrderController@toOrderPay');
+  });
+
   //提供接口的服务路由
   Route::group(['prefix'=>'service','namespace'=>'Service'],function (){
     //获取验证码图片

@@ -30,7 +30,10 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
         ],
-
+      //定义中间件
+        'check.login' =>[
+          \App\Http\Middleware\CheckLogin::class,
+        ],
         'api' => [
             'throttle:60,1',
         ],

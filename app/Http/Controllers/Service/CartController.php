@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Service;
 
+use App\Http\Entity\CartItem;
 use App\Models\API_Result;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,32 @@ class CartController extends Controller
     //添加购物车方法接口
   public function addCart($product_id)
   {
+    $API_Result = new API_Result();
+    $API_Result->status = 0;
+    $API_Result->message = '成功加入购物车！';
+    $member = \Session::get('member','');
+    if ($member != ''){
+      $cart_items = CartItem::where('member_id', $member->id)->get();
+
+      $exist = false;
+      foreach ($cart_items as $cart_item) {
+        if($cart_item->product_id == $product_id) {
+          $cart_item->count ++;
+          $cart_item->save();
+          $exist = true;
+          break;
+        }
+      }
+
+      if($exist == false) {
+        $cart_item = new CartItem;
+        $cart_item->product_id = $product_id;
+        $cart_item->count = 1;
+        $cart_item->member_id = $member->id;
+        $cart_item->save();
+      }
+      return $API_Result->toJson();
+    }
     $_cart = \Cookie::get('_cart');//获取cookie
     $_cart_array = $_cart != null ? explode(',',$_cart):[];
     $count =1;                          //其它解决办法为定义一个空数组，将内容写入
@@ -31,9 +58,6 @@ class CartController extends Controller
     //将$_cart_array数组转成字符串，并存入到cookie中
     $_cart = implode(',',$_cart_array);
     $lifetime = 60*24*365;  //设置cookie过期时间为1年  如果不写默认为当关闭浏览器时
-    $API_Result = new API_Result();
-    $API_Result->status = 0;
-    $API_Result->message = '成功加入购物车！';
     return response($API_Result->toJson())->cookie('_cart',$_cart,$lifetime);
     //return response($API_Result->toJson())->withcookie(\Cookie::forever('_cart',$_cart));
             //----------------------cookie用法--------------
@@ -44,6 +68,8 @@ class CartController extends Controller
   public function deleteCart()
   {
     $API_Result = new API_Result();
+    $API_Result->status = 0;
+    $API_Result->message = '删除成功！';
     $product_ids = Input::get('product_ids','');
     //先判断一下$product_ids是否为空字符串
     if($product_ids == ''){
@@ -51,8 +77,15 @@ class CartController extends Controller
       $API_Result->message = '商品id为空！';
       return $API_Result->toJson();
     }
-    //----------判断cookie中的id,是否在要删除的数组id中，如果是就将其删除的逻辑--------
     $product_ids_array = explode(',',$product_ids);//将传过来的字符串通过','分割为数组
+    $member = \Session::get('member','');
+    if ($member != ''){
+      // 已登录
+      CartItem::whereIn('product_id', $product_ids_array)->delete();
+      return $API_Result->toJson();
+    }
+    //未登录
+    //----------判断cookie中的id,是否在要删除的数组id中，如果是就将其删除的逻辑--------
     $_cart = \Cookie::get('_cart');//获得cookie的字符串
     $_cart_array = explode(',',$_cart);//将字符串转为数组
     //遍历cookie数组，获得商品id，判断是否在要删除的数组id中
@@ -65,9 +98,6 @@ class CartController extends Controller
       }
     }
     //将删除后的数组写入cookie中
-
-    $API_Result->status = 0;
-    $API_Result->message = '删除成功！';
     return response($API_Result->toJson())->cookie('_cart',implode(',',$_cart_array),60*24*365);
   }
 }
