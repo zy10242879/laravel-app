@@ -23,6 +23,8 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('product/category_id/{category_id}','View\CategoryController@toProduct');
   //产品详情页
   Route::get('product/{product_id}','View\CategoryController@toPdtContent');
+  //购物车页
+  Route::get('cart','View\CartController@toCart');
 
   //提供接口的服务路由
   Route::group(['prefix'=>'service','namespace'=>'Service'],function (){
@@ -40,6 +42,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('category/parent_id/{parent_id}','CategoryController@getCategoryByParentId');
     //****加入购物车写入cookie接口****
     Route::get('cart/add/{parent_id}','CartController@addCart');
+    //删除购物车商品
+    Route::get('cart/delete','CartController@deleteCart');
   });
 
 });

@@ -113,9 +113,10 @@
             });
         }
         //--------------------------------------------
-//        function _toCart() {
-//            location.href = '/cart';
-//        }
+        //点击跳转到购物车页
+        function _toCart() {
+            location.href = '/cart';
+        }
     </script>
 
 

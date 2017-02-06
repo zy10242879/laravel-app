@@ -76,7 +76,10 @@ input[placeholder]{font-weight: bold;}
 }
 .bk_time {
   font-size: 14px;
-  color: #eee;
+  color: #c0bfc4;
+}
+.bk_price{
+  color: #888;
 }
 .bk_important {
   font-size: 16px;

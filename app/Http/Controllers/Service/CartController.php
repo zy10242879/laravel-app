@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
 class CartController extends Controller
 {
@@ -38,5 +39,35 @@ class CartController extends Controller
             //----------------------cookie用法--------------
             //写入cookie的方法  response(返回的内容)->cookie('名字','内容字符串'[,'时间1为1分钟']);
               //response(返回的内容)->withcookie(\Cookie::forever('名字','内容字符串'));//永久(5年)cookie
+  }
+  //删除购物车中的商品的接口
+  public function deleteCart()
+  {
+    $API_Result = new API_Result();
+    $product_ids = Input::get('product_ids','');
+    //先判断一下$product_ids是否为空字符串
+    if($product_ids == ''){
+      $API_Result->status = 1;
+      $API_Result->message = '商品id为空！';
+      return $API_Result->toJson();
+    }
+    //----------判断cookie中的id,是否在要删除的数组id中，如果是就将其删除的逻辑--------
+    $product_ids_array = explode(',',$product_ids);//将传过来的字符串通过','分割为数组
+    $_cart = \Cookie::get('_cart');//获得cookie的字符串
+    $_cart_array = explode(',',$_cart);//将字符串转为数组
+    //遍历cookie数组，获得商品id，判断是否在要删除的数组id中
+    foreach ($_cart_array as $k=>$value){
+      $index = strpos($value,':');
+      $product_id = substr($value,0,$index);
+      if (in_array($product_id,$product_ids_array)){//判断是否在id中
+        unset($_cart_array[$k]);//将数组中对应下标的元素删除
+              //删除cookie中的，在购物车点击删除的商品数组
+      }
+    }
+    //将删除后的数组写入cookie中
+
+    $API_Result->status = 0;
+    $API_Result->message = '删除成功！';
+    return response($API_Result->toJson())->cookie('_cart',implode(',',$_cart_array),60*24*365);
   }
 }
