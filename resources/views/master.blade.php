@@ -38,10 +38,10 @@
     <div class="weui-mask" id="iosMask" style="display: none"></div>
     <div class="weui-actionsheet" id="iosActionsheet">
         <div class="weui-actionsheet__menu">
-            <div class="weui-actionsheet__cell" onclick="onMenuItemClick(1)">用户中心</div>
-            <div class="weui-actionsheet__cell" onclick="onMenuItemClick(2)">产品展示</div>
+            <div class="weui-actionsheet__cell" onclick="onMenuItemClick(1)">主页</div>
+            <div class="weui-actionsheet__cell" onclick="onMenuItemClick(2)">分类页</div>
             <div class="weui-actionsheet__cell" onclick="onMenuItemClick(3)">购物车</div>
-            <div class="weui-actionsheet__cell" onclick="onMenuItemClick(4)">关于我们</div>
+            <div class="weui-actionsheet__cell" onclick="onMenuItemClick(4)">我的订单</div>
         </div>
         <div class="weui-actionsheet__action">
             <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
@@ -75,15 +75,15 @@
         $('#iosActionsheet').removeClass('weui-actionsheet_toggle');
         $('#iosMask').fadeOut(200);
         if(index == 1) {
-
-        } else if(index == 2) {
-
-        } else if(index == 3){
-
-        } else {
             $('.bk_toptips').show();
             $('.bk_toptips span').html("敬请期待!");
             setTimeout(function() {$('.bk_toptips').hide();}, 2000);
+        } else if(index == 2) {
+            location.href = "{{url('category')}}";
+        } else if(index == 3){
+            location.href = "{{url('cart')}}";
+        } else {
+            location.href = "{{url('order_list')}}";
         }
     }
     //将标题栏和标题保持一致

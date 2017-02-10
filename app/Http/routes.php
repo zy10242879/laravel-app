@@ -28,7 +28,11 @@ Route::group(['middleware' => ['web']], function () {
 
   Route::group(['middleware'=>['check.login']],function(){
   //购物结算，需要中间件来判断是否是登录状态
-    Route::get('order_pay/product_ids/{product_ids}','View\OrderController@toOrderPay');
+    //Route::get('order_pay/product_ids/{product_ids}','View\OrderController@toOrderPay');
+    //订单页
+    Route::get('order_commit/product_ids/{product_ids}','View\OrderController@toOrderCommit');
+    //订单列表
+    Route::get('order_list','View\OrderController@toOrderList');
   });
 
   //提供接口的服务路由

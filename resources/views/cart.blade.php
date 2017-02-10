@@ -71,7 +71,7 @@
                 setTimeout(function() {$('.bk_toptips').hide();}, 2000);
                 return;
             }
-            location.href = "{{url('order_pay')}}/product_ids/"+product_ids_arr;
+            location.href = "{{url('order_commit')}}/product_ids/"+product_ids_arr;
             {{--// 如果是微信浏览器--}}
             {{--var is_wx = 0;--}}
             {{--var ua = navigator.userAgent.toLowerCase();//获取判断用的对象--}}
